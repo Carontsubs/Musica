@@ -59,12 +59,12 @@
   Consulta immediata:
   C:\> python lost_frequencies_monitor_v4.py
   C:\> python elikapowski_monitor_v2.py
-  C:\> python barcelona_monitor_v3.py
+  C:\> python barcelona_monitor_v1.py
 
   Mode vigilant (comprova cada 6 hores):
   C:\> python lost_frequencies_monitor_v4.py --watch
   C:\> python elikapowski_monitor_v2.py --watch
-  C:\> python barcelona_monitor_v3.py --watch
+  C:\> python barcelona_monitor_v1.py --watch
 
 
 +------------------------------------------------------------+
