@@ -1,76 +1,116 @@
-# 🎵 Concert Monitor
-
-Scripts per monitoritzar concerts d'artistes favorits en un radi de distància determinat.
-
-## Artistes
-
-| Script | Artista | Font de dades | Radi |
-|--------|---------|---------------|------|
-| `lost_frequencies_monitor_v4.py` | Lost Frequencies | Bandsintown (API oficial) | 200 km de Barcelona |
-| `elikapowski_monitor_v2.py` | Elikapowski | Resident Advisor (GraphQL) | 35 km d'El Masnou |
-
----
-
-## Instal·lació
-
-```bash
-pip install requests geopy
 ```
++============================================================+
+|                                                            |
+|              CONCERT MONITOR  v2.0                        |
+|         (C) 2026 - All rights reserved                    |
+|                                                            |
++============================================================+
 
----
+  Monitor de concerts d'artistes favorits en un radi de
+  distancia determinat, amb notificacions via Telegram.
 
-## Ús
 
-### Consulta immediata
-```bash
-python lost_frequencies_monitor_v4.py
-python elikapowski_monitor_v2.py
++------------------------------------------------------------+
+|  ARTISTES I EVENTS                                         |
++------------------------------------------------------------+
+
+  [1] Lost Frequencies
+      Font    : Bandsintown API (js_lostfrequencies.com)
+      Script  : lost_frequencies_monitor_v4.py
+      Radi    : 200 km de Barcelona
+
+  [2] Elikapowski
+      Font    : Resident Advisor (GraphQL)
+      Script  : elikapowski_monitor_v2.py
+      Radi    : 35 km d'El Masnou
+
+  [3] Events Barcelona per genere
+      Font    : Resident Advisor (GraphQL)
+      Script  : barcelona_monitor_v3.py
+      Filtre  : House, Disco, Nu Disco, Deep House...
+                Nomes divendres i dissabtes, 16h-22h
+      Notif.  : Telegram
+
+
++------------------------------------------------------------+
+|  INSTALACIO                                                |
++------------------------------------------------------------+
+
+  C:\> pip install -r requirements.txt
+
+
++------------------------------------------------------------+
+|  CONFIGURACIO TELEGRAM (opcional)                          |
++------------------------------------------------------------+
+
+  Crea un fitxer .env a la mateixa carpeta:
+
+      TELEGRAM_TOKEN=el_teu_token
+      TELEGRAM_CHAT_ID=el_teu_chat_id
+
+  Per obtenir el token: @BotFather a Telegram
+  IMPORTANT: No pujar el .env a GitHub!
+
+
++------------------------------------------------------------+
+|  US                                                        |
++------------------------------------------------------------+
+
+  Consulta immediata:
+  C:\> python lost_frequencies_monitor_v4.py
+  C:\> python elikapowski_monitor_v2.py
+  C:\> python barcelona_monitor_v3.py
+
+  Mode vigilant (comprova cada 6 hores):
+  C:\> python lost_frequencies_monitor_v4.py --watch
+  C:\> python elikapowski_monitor_v2.py --watch
+  C:\> python barcelona_monitor_v3.py --watch
+
+
++------------------------------------------------------------+
+|  COM FUNCIONA                                              |
++------------------------------------------------------------+
+
+  LOST FREQUENCIES
+  ----------------
+  La web oficial usa el widget de Bandsintown. El script
+  consulta l'API amb l'app_id oficial (js_lostfrequencies.com)
+  i filtra els concerts per distancia a Barcelona.
+
+  ELIKAPOWSKI
+  -----------
+  L'artista publica els concerts a Resident Advisor.
+  El script consulta l'API GraphQL de RA i filtra els
+  concerts per distancia a El Masnou.
+
+  BARCELONA MONITOR
+  -----------------
+  Consulta tots els events de Barcelona a Resident Advisor
+  i filtra per genere (House, Disco, Nu Disco...) i paraules
+  clau als titols. Nomes mostra events de divendres i
+  dissabte entre les 16h i les 22h. Envia notificacions
+  via Telegram quan troba events coincidents.
+
+
++------------------------------------------------------------+
+|  DEPENDENCIES                                              |
++------------------------------------------------------------+
+
+  requests       Peticions HTTP
+  geopy          Calcul de distancies geografiques
+  python-dotenv  Carrega variables d'entorn des de .env
+
+
++------------------------------------------------------------+
+|  ROADMAP                                                   |
++------------------------------------------------------------+
+
+  [x] Notificacions via Telegram
+  [ ] Script unificat per a tots els artistes
+  [ ] Suport per a mes artistes
+
+
++============================================================+
+|  Press any key to continue...                              |
++============================================================+
 ```
-
-### Mode vigilant (comprova automàticament cada 6 hores)
-```bash
-python lost_frequencies_monitor_v4.py --watch
-python elikapowski_monitor_v2.py --watch
-```
-
----
-
-## Com funciona
-
-### Lost Frequencies
-La web oficial ([lostfrequencies.com](https://lostfrequencies.com/tour-dates/)) usa el widget de Bandsintown. El script consulta directament l'API de Bandsintown amb l'`app_id` oficial de la web (`js_lostfrequencies.com`) i filtra els concerts per distància a Barcelona.
-
-### Elikapowski
-L'artista publica els seus concerts a [Resident Advisor](https://ra.co/dj/elikapowski). El script consulta l'API GraphQL de RA i filtra els concerts per distància a El Masnou.
-
----
-
-## Exemple de sortida
-
-```
-───────────────────────────────────────────────────────
-🎵 Lost Frequencies — Concerts a 200km de Barcelona
-   Consulta: 2026-03-12 09:30:23
-───────────────────────────────────────────────────────
-
-▶ Consultant Bandsintown (app_id oficial)...
-   33 concerts totals trobats.
-
-😔 Cap concert a menys de 200km de Barcelona de moment.
-   Comprova manualment: https://lostfrequencies.com/tour-dates/
-```
-
----
-
-## Dependències
-
-- [`requests`](https://pypi.org/project/requests/) — peticions HTTP
-- [`geopy`](https://pypi.org/project/geopy/) — càlcul de distàncies geogràfiques
-
----
-
-## Roadmap
-
-- [ ] Notificacions via Telegram
-- [ ] Script unificat per a tots els artistes
-- [ ] Suport per a més artistes
