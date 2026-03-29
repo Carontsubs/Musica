@@ -14,10 +14,31 @@ Instal·lació:
 import requests
 import argparse
 import json
-import re
+import re   
 import time
 from datetime import datetime
 from geopy.distance import geodesic
+import os
+from dotenv import load_dotenv #Importem la funció per carregar .env
+
+load_dotenv()
+
+TELEGRAM_TOKEN  = os.getenv("TOKEN_TELEGRAM")
+TELEGRAM_CHAT_ID = os.getenv("CHAT_ID")
+
+def send_telegram(missatge: str):
+    if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
+        print(f"{R}⚠️  Variables TELEGRAM_TOKEN o TELEGRAM_CHAT_ID no definides.{X}")
+        return
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    requests.post(url, json={
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": missatge,
+        "parse_mode": "HTML"
+    }, timeout=10)
+
+
+
 
 # ─── Configuració ─────────────────────────────────────────────────────────────
 
@@ -110,8 +131,9 @@ def check_concerts() -> list:
     if propers:
         print(f"{G}{B}🎉 {len(propers)} concert(s) a menys de {MAX_KM}km de Barcelona!{X}\n")
         for ev, km in propers:
-            print(format_event(ev, km))
-            print()
+            ev_str = format_event(ev, km)
+            print(ev_str)
+            send_telegram(ev_str.replace("\033[92m","").replace("\033[93m","").replace("\033[91m","").replace("\033[96m","").replace("\033[1m","").replace("\033[0m",""))
     else:
         print(f"{R}😔 Cap concert a menys de {MAX_KM}km de Barcelona de moment.{X}")
         print(f"\n   Comprova manualment: {C}https://lostfrequencies.com/tour-dates/{X}")

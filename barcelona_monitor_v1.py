@@ -210,8 +210,8 @@ def format_preu(event: dict) -> str:
     if cost is None or cost == "":
         return "—"
     if str(cost).strip() == "0":
-        return "🆓 Gratuït"
-    return f"💶 {cost}"
+        return "Gratuït"
+    return f"{cost}"
 
 
 def format_event(event: dict, motiu: str) -> str:

@@ -1,13 +1,14 @@
 ```
 +============================================================+
 |                                                            |
-|              CONCERT MONITOR  v2.0                        |
+|              CONCERT MONITOR  v3.0                        |
 |         (C) 2026 - All rights reserved                    |
 |                                                            |
 +============================================================+
 
   Monitor de concerts d'artistes favorits en un radi de
   distancia determinat, amb notificacions via Telegram.
+  Pensat per ser executat via Windows Task Scheduler.
 
 
 +------------------------------------------------------------+
@@ -16,7 +17,7 @@
 
   [1] Lost Frequencies
       Font    : Bandsintown API (js_lostfrequencies.com)
-      Script  : lost_frequencies_monitor_v4.py
+      Script  : lost_frequencies_monitor_v3.py
       Radi    : 200 km de Barcelona
 
   [2] Elikapowski
@@ -40,13 +41,13 @@
 
 
 +------------------------------------------------------------+
-|  CONFIGURACIO TELEGRAM (opcional)                          |
+|  CONFIGURACIO TELEGRAM                                     |
 +------------------------------------------------------------+
 
   Crea un fitxer .env a la mateixa carpeta:
 
-      TELEGRAM_TOKEN=el_teu_token
-      TELEGRAM_CHAT_ID=el_teu_chat_id
+      TOKEN_TELEGRAM=el_teu_token
+      CHAT_ID=el_teu_chat_id
 
   Per obtenir el token: @BotFather a Telegram
   IMPORTANT: No pujar el .env a GitHub!
@@ -56,40 +57,50 @@
 |  US                                                        |
 +------------------------------------------------------------+
 
-  Consulta immediata:
-  C:\> python lost_frequencies_monitor_v4.py
-  C:\> python elikapowski_monitor_v2.py
-  C:\> python barcelona_monitor_v1.py
+  Execucio manual (tots els monitors alhora):
+  C:\> python monitor.py
 
-  Mode vigilant (comprova cada 6 hores):
-  C:\> python lost_frequencies_monitor_v4.py --watch
-  C:\> python elikapowski_monitor_v2.py --watch
-  C:\> python barcelona_monitor_v1.py --watch
+  Scripts individuals:
+  C:\> python lost_frequencies_monitor_v3.py
+  C:\> python elikapowski_monitor_v2.py
+  C:\> python barcelona_monitor_v3.py
+
+  Execucio automatica (recomanat):
+  Configura Windows Task Scheduler per executar
+  monitor.py periodicament (ex: cada divendres a les 9h).
 
 
 +------------------------------------------------------------+
 |  COM FUNCIONA                                              |
 +------------------------------------------------------------+
 
+  MONITOR.PY
+  ----------
+  Script principal que importa i executa els tres monitors
+  seqüencialment. Cada script segueix funcionant de forma
+  independent si cal.
+
   LOST FREQUENCIES
   ----------------
   La web oficial usa el widget de Bandsintown. El script
   consulta l'API amb l'app_id oficial (js_lostfrequencies.com)
   i filtra els concerts per distancia a Barcelona.
+  Envia notificacions via Telegram si troba concerts.
 
   ELIKAPOWSKI
   -----------
   L'artista publica els concerts a Resident Advisor.
   El script consulta l'API GraphQL de RA i filtra els
   concerts per distancia a El Masnou.
+  Envia notificacions via Telegram si troba concerts.
 
   BARCELONA MONITOR
   -----------------
   Consulta tots els events de Barcelona a Resident Advisor
   i filtra per genere (House, Disco, Nu Disco...) i paraules
   clau als titols. Nomes mostra events de divendres i
-  dissabte entre les 16h i les 22h. Envia notificacions
-  via Telegram quan troba events coincidents.
+  dissabte entre les 16h i les 22h.
+  Envia notificacions via Telegram amb els events trobats.
 
 
 +------------------------------------------------------------+
@@ -106,7 +117,7 @@
 +------------------------------------------------------------+
 
   [x] Notificacions via Telegram
-  [ ] Script unificat per a tots els artistes
+  [x] Script unificat per a tots els artistes
   [ ] Suport per a mes artistes
 
 
