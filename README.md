@@ -1,7 +1,7 @@
 ```
 +============================================================+
 |                                                            |
-|              CONCERT MONITOR  v3.0                        |
+|              CONCERT MONITOR  v4.0                        |
 |         (C) 2026 - All rights reserved                    |
 |                                                            |
 +============================================================+
@@ -17,7 +17,7 @@
 
   [1] Lost Frequencies
       Font    : Bandsintown API (js_lostfrequencies.com)
-      Script  : lost_frequencies_monitor_v3.py
+      Script  : lost_frequencies_monitor_v4.py
       Radi    : 200 km de Barcelona
 
   [2] Elikapowski
@@ -30,6 +30,13 @@
       Script  : barcelona_monitor_v3.py
       Filtre  : House, Disco, Nu Disco, Deep House...
                 Nomes divendres i dissabtes, 16h-22h
+      Notif.  : Telegram
+
+  [4] Events Barcelona de tarda
+      Font    : Dice.fm (scraping HTML)
+      Script  : barcelona_monitor_dice.py
+      Filtre  : Tots els events de divendres i dissabte
+                entre les 16h i les 22h
       Notif.  : Telegram
 
 
@@ -61,13 +68,14 @@
   C:\> python monitor.py
 
   Scripts individuals:
-  C:\> python lost_frequencies_monitor_v3.py
+  C:\> python lost_frequencies_monitor_v4.py
   C:\> python elikapowski_monitor_v2.py
   C:\> python barcelona_monitor_v3.py
+  C:\> python barcelona_monitor_dice.py
 
   Execucio automatica (recomanat):
   Configura Windows Task Scheduler per executar
-  monitor.py periodicament (ex: cada divendres a les 9h).
+  monitor.py cada dilluns (ex: a les 9h).
 
 
 +------------------------------------------------------------+
@@ -76,8 +84,8 @@
 
   MONITOR.PY
   ----------
-  Script principal que importa i executa els tres monitors
-  seqüencialment. Cada script segueix funcionant de forma
+  Script principal que importa i executa els quatre monitors
+  sequencialment. Cada script segueix funcionant de forma
   independent si cal.
 
   LOST FREQUENCIES
@@ -94,12 +102,19 @@
   concerts per distancia a El Masnou.
   Envia notificacions via Telegram si troba concerts.
 
-  BARCELONA MONITOR
-  -----------------
+  BARCELONA MONITOR (RA)
+  ----------------------
   Consulta tots els events de Barcelona a Resident Advisor
   i filtra per genere (House, Disco, Nu Disco...) i paraules
   clau als titols. Nomes mostra events de divendres i
   dissabte entre les 16h i les 22h.
+  Envia notificacions via Telegram amb els events trobats.
+
+  BARCELONA MONITOR (DICE)
+  ------------------------
+  Fa scraping de la pagina de Barcelona a Dice.fm i extreu
+  els events del proper cap de setmana (divendres i dissabte)
+  entre les 16h i les 22h, sense filtre de genere.
   Envia notificacions via Telegram amb els events trobats.
 
 
@@ -118,6 +133,7 @@
 
   [x] Notificacions via Telegram
   [x] Script unificat per a tots els artistes
+  [x] Events de Barcelona via Dice.fm
   [ ] Suport per a mes artistes
 
 

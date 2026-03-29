@@ -2,16 +2,17 @@
 """
 Monitor principal — executa tots els monitors de concerts.
 
-    lost_frequencies_monitor_v3.py  → Lost Frequencies (Bandsintown)
+    lost_frequencies_monitor_v4.py  → Lost Frequencies (Bandsintown)
     elikapowski_monitor_v2.py       → Elikapowski (Resident Advisor)
     barcelona_monitor_v3.py         → Events Barcelona per gènere (RA)
+    barcelona_monitor_dice.py       → Events Barcelona de tarda (Dice.fm)
 
 Instal·lació:
     pip install -r requirements.txt
 
 Ús:
-    python monitor.py           # Executa els tres d'una vegada
-    python monitor.py --watch   # Els tres en mode vigilant (cada 6h)
+    python monitor.py           # Executa els quatre d'una vegada
+    python monitor.py --watch   # Els quatre en mode vigilant (cada 6h)
 """
 
 import argparse
@@ -31,7 +32,7 @@ try:
     import lost_frequencies_monitor_v4 as lf
 except ImportError:
     lf = None
-    print(f"{R}⚠️  lost_frequencies_monitor_v3.py no trobat.{X}")
+    print(f"{R}⚠️  lost_frequencies_monitor_v4.py no trobat.{X}")
 
 try:
     import elikapowski_monitor_v2 as eli
@@ -45,11 +46,17 @@ except ImportError:
     bcn = None
     print(f"{R}⚠️  barcelona_monitor_v3.py no trobat.{X}")
 
+try:
+    import barcelona_monitor_dice as dice
+except ImportError:
+    dice = None
+    print(f"{R}⚠️  barcelona_monitor_dice.py no trobat.{X}")
+
 
 # ─── Funcions ─────────────────────────────────────────────────────────────────
 
 def run_all():
-    """Executa els tres monitors seqüencialment."""
+    """Executa tots els monitors seqüencialment."""
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"\n{B}{'═'*55}{X}")
     print(f"{B}🎵 CONCERT MONITOR — Execució completa{X}")
@@ -74,14 +81,23 @@ def run_all():
     else:
         print(f"{R}⚠️  Monitor d'Elikapowski no disponible.{X}")
 
-    # ── Barcelona per gènere ──────────────────────────────────────
+    # ── Barcelona per gènere (RA) ─────────────────────────────────
     if bcn:
         try:
             bcn.check_events()
         except Exception as e:
-            print(f"{R}Error Barcelona Monitor: {e}{X}")
+            print(f"{R}Error Barcelona Monitor (RA): {e}{X}")
     else:
-        print(f"{R}⚠️  Monitor de Barcelona no disponible.{X}")
+        print(f"{R}⚠️  Monitor de Barcelona (RA) no disponible.{X}")
+
+    # ── Barcelona de tarda (Dice.fm) ──────────────────────────────
+    if dice:
+        try:
+            dice.check_events()
+        except Exception as e:
+            print(f"{R}Error Barcelona Monitor (Dice): {e}{X}")
+    else:
+        print(f"{R}⚠️  Monitor de Barcelona (Dice) no disponible.{X}")
 
     print(f"\n{B}{'═'*55}{X}")
     print(f"{B}✅ Execució completada.{X}")
