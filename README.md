@@ -48,7 +48,7 @@
 
   [5b] Throwback - Detector de nous events
       Font    : Resident Advisor (GraphQL - venue La Terrrazza)
-      Script  : throwback_new_events.py
+      Script  : throwback_early_bird.py
       Filtre  : Igual que [5] pero nomes notifica quan
                 apareix un event que no havia vist abans
       Memoria : throwback_known.json (IDs ja vistos)
@@ -65,7 +65,7 @@
 
   [7] La Paloma - Events de cap de setmana
       Font    : Resident Advisor (GraphQL - venue La Paloma)
-      Script  : club_207515_monitor.py
+      Script  : paloma_monitor_v1.py
       Filtre  : Events de divendres i dissabte que acabin
                 com a molt tard a les 03:00h de la matinada
                 Propers 2 caps de setmana des de l'execucio
@@ -106,11 +106,11 @@
   C:\> python barcelona_monitor_v3.py
   C:\> python barcelona_monitor_dice.py
   C:\> python throwback_monitor_v1.py
-  C:\> python bridge48_monitor.py
-  C:\> python club_207515_monitor.py
+  C:\> python bridge48_monitor_v1.py
+  C:\> python paloma_monitor_v1.py
 
   Scripts independents (NO inclosos a monitor.py):
-  C:\> python throwback_new_events.py
+  C:\> python throwback_early_bird.py
 
   Execucio automatica (recomanat):
   Configura Windows Task Scheduler per executar
