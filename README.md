@@ -1,12 +1,11 @@
-```
 +============================================================+
 |                                                            |
-|              CONCERT MONITOR  v4.0                        |
+|              CONCERT MONITOR  v4.1                        |
 |         (C) 2026 - All rights reserved                    |
 |                                                            |
 +============================================================+
 
-  Monitor de concerts d'artistes favorits en un radi de
+  Monitor de concerts i events favorits en un radi de
   distancia determinat, amb notificacions via Telegram.
   Pensat per ser executat via Windows Task Scheduler.
 
@@ -37,6 +36,14 @@
       Script  : barcelona_monitor_dice.py
       Filtre  : Tots els events de divendres i dissabte
                 entre les 16h i les 22h
+      Notif.  : Telegram
+
+  [5] Throwback - Back to 80s, 90s & 00s
+      Font    : Resident Advisor (GraphQL - venue La Terrrazza)
+      Script  : throwback_monitor_v1.py
+      Filtre  : Events amb "throwback", "80s", "90s", "00s"
+                al titol, venue ID 3760 (La Terrrazza)
+      Radi    : 35 km d'El Masnou
       Notif.  : Telegram
 
 
@@ -72,6 +79,7 @@
   C:\> python elikapowski_monitor_v2.py
   C:\> python barcelona_monitor_v3.py
   C:\> python barcelona_monitor_dice.py
+  C:\> python throwback_monitor_v1.py
 
   Execucio automatica (recomanat):
   Configura Windows Task Scheduler per executar
@@ -84,7 +92,7 @@
 
   MONITOR.PY
   ----------
-  Script principal que importa i executa els quatre monitors
+  Script principal que importa i executa els cinc monitors
   sequencialment. Cada script segueix funcionant de forma
   independent si cal.
 
@@ -117,6 +125,14 @@
   entre les 16h i les 22h, sense filtre de genere.
   Envia notificacions via Telegram amb els events trobats.
 
+  THROWBACK - BACK TO 80s, 90s & 00s
+  ------------------------------------
+  Consulta els events futurs del venue La Terrrazza
+  (ID 3760) a Resident Advisor via GraphQL i filtra els
+  que continguin "throwback", "80s", "90s" i "00s" al
+  titol. Filtra per distancia a El Masnou (35km).
+  Envia notificacions via Telegram si troba events.
+
 
 +------------------------------------------------------------+
 |  DEPENDENCIES                                              |
@@ -128,16 +144,16 @@
 
 
 +------------------------------------------------------------+
-|  FULL DE RUTA                                                  |
+|  FULL DE RUTA                                              |
 +------------------------------------------------------------+
 
   [x] Notificacions via Telegram
   [x] Script unificat per a tots els artistes
   [x] Events de Barcelona via Dice.fm
+  [x] Monitor per events recurrents (Throwback)
   [ ] Suport per a mes artistes
 
 
 +============================================================+
 |  Press any key to continue...                              |
 +============================================================+
-```
