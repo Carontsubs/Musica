@@ -1,6 +1,6 @@
 +============================================================+
 |                                                            |
-|              CONCERT MONITOR  v4.1                        |
+|              CONCERT MONITOR  v4.2                        |
 |         (C) 2026 - All rights reserved                    |
 |                                                            |
 +============================================================+
@@ -46,6 +46,14 @@
       Radi    : 35 km d'El Masnou
       Notif.  : Telegram
 
+  [6] Bridge 48 - Events de tarda
+      Font    : Resident Advisor (GraphQL - venue Bridge 48)
+      Script  : bridge48_monitor.py
+      Filtre  : Events de divendres i dissabte entre 16h-22h
+                Propers 2 caps de setmana des de l'execucio
+                Venue ID 178344 (Bridge 48, Barcelona)
+      Notif.  : Telegram
+
 
 +------------------------------------------------------------+
 |  INSTALACIO                                                |
@@ -80,6 +88,7 @@
   C:\> python barcelona_monitor_v3.py
   C:\> python barcelona_monitor_dice.py
   C:\> python throwback_monitor_v1.py
+  C:\> python bridge48_monitor.py
 
   Execucio automatica (recomanat):
   Configura Windows Task Scheduler per executar
@@ -92,7 +101,7 @@
 
   MONITOR.PY
   ----------
-  Script principal que importa i executa els cinc monitors
+  Script principal que importa i executa els sis monitors
   sequencialment. Cada script segueix funcionant de forma
   independent si cal.
 
@@ -133,6 +142,15 @@
   titol. Filtra per distancia a El Masnou (35km).
   Envia notificacions via Telegram si troba events.
 
+  BRIDGE 48
+  ---------
+  Consulta els events futurs del venue Bridge 48
+  (ID 178344) a Resident Advisor via GraphQL. Filtra
+  els events dels propers 2 caps de setmana que comencin
+  entre les 16h i les 22h. No requereix filtre de genere
+  ni de distancia (venue fix a Barcelona).
+  Envia notificacions via Telegram si troba events.
+
 
 +------------------------------------------------------------+
 |  DEPENDENCIES                                              |
@@ -151,6 +169,7 @@
   [x] Script unificat per a tots els artistes
   [x] Events de Barcelona via Dice.fm
   [x] Monitor per events recurrents (Throwback)
+  [x] Monitor per venue especific (Bridge 48)
   [ ] Suport per a mes artistes
 
 

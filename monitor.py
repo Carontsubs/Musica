@@ -6,6 +6,7 @@ Monitor principal — executa tots els monitors de concerts.
     elikapowski_monitor_v2.py       → Elikapowski (Resident Advisor)
     barcelona_monitor_v3.py         → Events Barcelona per gènere (RA)
     barcelona_monitor_dice.py       → Events Barcelona de tarda (Dice.fm)
+    throwback_monitor_v1.py         → Events Throwback (RA)
 
 Instal·lació:
     pip install -r requirements.txt
@@ -27,6 +28,17 @@ C = "\033[96m"; B = "\033[1m";  X = "\033[0m"
 CHECK_HOURS = 6
 
 # ─── Importem els monitors ────────────────────────────────────────────────────
+try:
+    import barcelona_monitor_v1 as bcn
+except ImportError:
+    bcn = None
+    print(f"{R}⚠️  barcelona_monitor_v3.py no trobat.{X}")
+
+try:
+    import barcelona_monitor_dice as dice
+except ImportError:
+    dice = None
+    print(f"{R}⚠️  barcelona_monitor_dice.py no trobat.{X}")
 
 try:
     import lost_frequencies_monitor_v4 as lf
@@ -41,17 +53,16 @@ except ImportError:
     print(f"{R}⚠️  elikapowski_monitor_v2.py no trobat.{X}")
 
 try:
-    import barcelona_monitor_v1 as bcn
+    import throwback_monitor_v1 as throwback
 except ImportError:
-    bcn = None
-    print(f"{R}⚠️  barcelona_monitor_v3.py no trobat.{X}")
+    throwback = None
+    print(f"{R}⚠️  throwback_monitor_v1.py no trobat.{X}")
 
 try:
-    import barcelona_monitor_dice as dice
+    import bridge48_monitor_v1 as bridge48
 except ImportError:
-    dice = None
-    print(f"{R}⚠️  barcelona_monitor_dice.py no trobat.{X}")
-
+    bridge48 = None
+    print(f"{R}⚠️  bridge48_monitor_v1.py no trobat.{X}")
 
 # ─── Funcions ─────────────────────────────────────────────────────────────────
 
@@ -62,24 +73,6 @@ def run_all():
     print(f"{B}🎵 CONCERT MONITOR — Execució completa{X}")
     print(f"   {now}")
     print(f"{B}{'═'*55}{X}")
-
-    # ── Lost Frequencies ──────────────────────────────────────────
-    if lf:
-        try:
-            lf.check_concerts()
-        except Exception as e:
-            print(f"{R}Error Lost Frequencies: {e}{X}")
-    else:
-        print(f"{R}⚠️  Monitor de Lost Frequencies no disponible.{X}")
-
-    # ── Elikapowski ───────────────────────────────────────────────
-    if eli:
-        try:
-            eli.check_concerts()
-        except Exception as e:
-            print(f"{R}Error Elikapowski: {e}{X}")
-    else:
-        print(f"{R}⚠️  Monitor d'Elikapowski no disponible.{X}")
 
     # ── Barcelona per gènere (RA) ─────────────────────────────────
     if bcn:
@@ -98,6 +91,42 @@ def run_all():
             print(f"{R}Error Barcelona Monitor (Dice): {e}{X}")
     else:
         print(f"{R}⚠️  Monitor de Barcelona (Dice) no disponible.{X}")
+    # ── Lost Frequencies ──────────────────────────────────────────
+    if lf:
+        try:
+            lf.check_concerts()
+        except Exception as e:
+            print(f"{R}Error Lost Frequencies: {e}{X}")
+    else:
+        print(f"{R}⚠️  Monitor de Lost Frequencies no disponible.{X}")
+
+    # ── Elikapowski ───────────────────────────────────────────────
+    if eli:
+        try:
+            eli.check_concerts()
+        except Exception as e:
+            print(f"{R}Error Elikapowski: {e}{X}")
+    else:
+        print(f"{R}⚠️  Monitor d'Elikapowski no disponible.{X}")
+
+
+    # ── Throwback (RA) ──────────────────────────────
+    if throwback:
+        try:
+            throwback.check_concerts()
+        except Exception as e:
+            print(f"{R}Error Throwback Monitor: {e}{X}")
+    else:
+        print(f"{R}⚠️  Monitor de Throwback (RA) no disponible.{X}")
+        
+    # ── Bridge 48 (RA) ──────────────────────────────
+    if bridge48:
+        try:
+            bridge48.check_concerts()
+        except Exception as e:
+            print(f"{R}Error Bridge 48 Monitor: {e}{X}")
+    else:
+        print(f"{R}⚠️  Monitor de Bridge 48 (RA) no disponible.{X}")
 
     print(f"\n{B}{'═'*55}{X}")
     print(f"{B}✅ Execució completada.{X}")
