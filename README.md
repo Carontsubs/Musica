@@ -1,6 +1,6 @@
 +============================================================+
 |                                                            |
-|              CONCERT MONITOR  v4.2                        |
+|              CONCERT MONITOR  v4.3                        |
 |         (C) 2026 - All rights reserved                    |
 |                                                            |
 +============================================================+
@@ -46,12 +46,30 @@
       Radi    : 35 km d'El Masnou
       Notif.  : Telegram
 
+  [5b] Throwback - Detector de nous events
+      Font    : Resident Advisor (GraphQL - venue La Terrrazza)
+      Script  : throwback_new_events.py
+      Filtre  : Igual que [5] pero nomes notifica quan
+                apareix un event que no havia vist abans
+      Memoria : throwback_known.json (IDs ja vistos)
+      Notif.  : Telegram
+      Nota    : Script independent, NO inclos a monitor.py
+
   [6] Bridge 48 - Events de tarda
       Font    : Resident Advisor (GraphQL - venue Bridge 48)
       Script  : bridge48_monitor.py
-      Filtre  : Events de divendres i dissabte entre 16h-22h
+      Filtre  : Events de dissabte i diumenge entre 16h-22h
                 Propers 2 caps de setmana des de l'execucio
                 Venue ID 178344 (Bridge 48, Barcelona)
+      Notif.  : Telegram
+
+  [7] La Paloma - Events de cap de setmana
+      Font    : Resident Advisor (GraphQL - venue La Paloma)
+      Script  : club_207515_monitor.py
+      Filtre  : Events de divendres i dissabte que acabin
+                com a molt tard a les 03:00h de la matinada
+                Propers 2 caps de setmana des de l'execucio
+                Venue ID 207515 (La Paloma, Barcelona)
       Notif.  : Telegram
 
 
@@ -89,10 +107,15 @@
   C:\> python barcelona_monitor_dice.py
   C:\> python throwback_monitor_v1.py
   C:\> python bridge48_monitor.py
+  C:\> python club_207515_monitor.py
+
+  Scripts independents (NO inclosos a monitor.py):
+  C:\> python throwback_new_events.py
 
   Execucio automatica (recomanat):
   Configura Windows Task Scheduler per executar
   monitor.py cada dilluns (ex: a les 9h).
+  throwback_new_events.py es pot programar diariament.
 
 
 +------------------------------------------------------------+
@@ -101,9 +124,11 @@
 
   MONITOR.PY
   ----------
-  Script principal que importa i executa els sis monitors
+  Script principal que importa i executa els set monitors
   sequencialment. Cada script segueix funcionant de forma
-  independent si cal.
+  independent si cal. throwback_new_events.py NO s'inclou
+  aqui perque te la seva propia logica de memoria i s'ha
+  d'executar per separat.
 
   LOST FREQUENCIES
   ----------------
@@ -142,6 +167,14 @@
   titol. Filtra per distancia a El Masnou (35km).
   Envia notificacions via Telegram si troba events.
 
+  THROWBACK - DETECTOR DE NOUS EVENTS
+  ------------------------------------
+  Complementari a l'anterior. En lloc de mostrar tots els
+  events Throwback cada vegada, nomes notifica quan apareix
+  un event amb ID nou que no havia vist en execucions
+  anteriors. Guarda la memoria a throwback_known.json.
+  Pensat per executar-se diariament via Task Scheduler.
+
   BRIDGE 48
   ---------
   Consulta els events futurs del venue Bridge 48
@@ -150,6 +183,25 @@
   entre les 16h i les 22h. No requereix filtre de genere
   ni de distancia (venue fix a Barcelona).
   Envia notificacions via Telegram si troba events.
+
+  LA PALOMA
+  ---------
+  Consulta els events futurs del venue La Paloma
+  (ID 207515) a Resident Advisor via GraphQL. Filtra
+  els events de divendres i dissabte dels propers 2 caps
+  de setmana que acabin com a molt tard a les 03:00h de
+  la matinada. Si un event no te hora de fi informada,
+  s'inclou igualment per no perdre'l.
+  Envia notificacions via Telegram si troba events.
+
+
++------------------------------------------------------------+
+|  FITXERS DE MEMORIA                                        |
++------------------------------------------------------------+
+
+  throwback_known.json   IDs d'events Throwback ja vistos.
+                         Generat automaticament per
+                         throwback_new_events.py
 
 
 +------------------------------------------------------------+
@@ -169,7 +221,9 @@
   [x] Script unificat per a tots els artistes
   [x] Events de Barcelona via Dice.fm
   [x] Monitor per events recurrents (Throwback)
+  [x] Detector de nous events amb memoria (Throwback)
   [x] Monitor per venue especific (Bridge 48)
+  [x] Monitor per venue especific (La Paloma)
   [ ] Suport per a mes artistes
 
 
