@@ -47,6 +47,12 @@ except ImportError:
     print(f"{R}⚠️  lost_frequencies_monitor_v4.py no trobat.{X}")
 
 try:
+    import paloma_monitor_v1 as paloma
+except ImportError:
+    paloma = None
+    print(f"{R}⚠️  paloma_monitor_v1.py no trobat.{X}")
+
+try:
     import elikapowski_monitor_v2 as eli
 except ImportError:
     eli = None
@@ -109,6 +115,14 @@ def run_all():
     else:
         print(f"{R}⚠️  Monitor d'Elikapowski no disponible.{X}")
 
+    # ── Paloma ───────────────────────────────────────────────
+    if paloma:
+        try:
+            paloma.check_concerts()
+        except Exception as e:
+            print(f"{R}Error Paloma: {e}{X}")
+    else:
+        print(f"{R}⚠️  Monitor d'Paloma no disponible.{X}")
 
     # ── Throwback (RA) ──────────────────────────────
     if throwback:
@@ -118,7 +132,7 @@ def run_all():
             print(f"{R}Error Throwback Monitor: {e}{X}")
     else:
         print(f"{R}⚠️  Monitor de Throwback (RA) no disponible.{X}")
-        
+
     # ── Bridge 48 (RA) ──────────────────────────────
     if bridge48:
         try:
