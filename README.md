@@ -1,6 +1,6 @@
 +============================================================+
 |                                                            |
-|              CONCERT MONITOR  v4.3                        |
+|              CONCERT MONITOR  v4.4                        |
 |         (C) 2026 - All rights reserved                    |
 |                                                            |
 +============================================================+
@@ -18,6 +18,7 @@
       Font    : Bandsintown API (js_lostfrequencies.com)
       Script  : lost_frequencies_monitor_v4.py
       Radi    : 200 km de Barcelona
+      Nota    : Script independent, NO inclos a monitor.py
 
   [2] Elikapowski
       Font    : Resident Advisor (GraphQL)
@@ -26,7 +27,7 @@
 
   [3] Events Barcelona per genere
       Font    : Resident Advisor (GraphQL)
-      Script  : barcelona_monitor_v3.py
+      Script  : barcelona_monitor_v1.py
       Filtre  : House, Disco, Nu Disco, Deep House...
                 Nomes divendres i dissabtes, 16h-22h
       Notif.  : Telegram
@@ -57,7 +58,7 @@
 
   [6] Bridge 48 - Events de tarda
       Font    : Resident Advisor (GraphQL - venue Bridge 48)
-      Script  : bridge48_monitor.py
+      Script  : bridge48_monitor_v1.py
       Filtre  : Events de dissabte i diumenge entre 16h-22h
                 Propers 2 caps de setmana des de l'execucio
                 Venue ID 178344 (Bridge 48, Barcelona)
@@ -101,21 +102,22 @@
   C:\> python monitor.py
 
   Scripts individuals:
-  C:\> python lost_frequencies_monitor_v4.py
   C:\> python elikapowski_monitor_v2.py
-  C:\> python barcelona_monitor_v3.py
+  C:\> python barcelona_monitor_v1.py
   C:\> python barcelona_monitor_dice.py
   C:\> python throwback_monitor_v1.py
   C:\> python bridge48_monitor_v1.py
   C:\> python paloma_monitor_v1.py
 
   Scripts independents (NO inclosos a monitor.py):
+  C:\> python lost_frequencies_monitor_v4.py
   C:\> python throwback_early_bird.py
 
   Execucio automatica (recomanat):
   Configura Windows Task Scheduler per executar
   monitor.py cada dilluns (ex: a les 9h).
-  throwback_new_events.py es pot programar diariament.
+  lost_frequencies_monitor_v4.py i throwback_early_bird.py
+  es poden programar amb la seva propia frequencia.
 
 
 +------------------------------------------------------------+
@@ -124,11 +126,12 @@
 
   MONITOR.PY
   ----------
-  Script principal que importa i executa els set monitors
-  sequencialment. Cada script segueix funcionant de forma
-  independent si cal. throwback_new_events.py NO s'inclou
-  aqui perque te la seva propia logica de memoria i s'ha
-  d'executar per separat.
+  Script principal que importa i executa sis monitors
+  sequencialment: Elikapowski, Barcelona (RA), Barcelona
+  (Dice), Throwback, Bridge 48 i La Paloma. Cada script
+  segueix funcionant de forma independent si cal.
+  Lost Frequencies i throwback_early_bird.py NO s'inclouen
+  aqui i s'han d'executar per separat.
 
   LOST FREQUENCIES
   ----------------
@@ -136,6 +139,7 @@
   consulta l'API amb l'app_id oficial (js_lostfrequencies.com)
   i filtra els concerts per distancia a Barcelona.
   Envia notificacions via Telegram si troba concerts.
+  Script independent, NO inclos a monitor.py.
 
   ELIKAPOWSKI
   -----------
@@ -174,6 +178,7 @@
   un event amb ID nou que no havia vist en execucions
   anteriors. Guarda la memoria a throwback_known.json.
   Pensat per executar-se diariament via Task Scheduler.
+  Script independent, NO inclos a monitor.py.
 
   BRIDGE 48
   ---------
@@ -201,7 +206,7 @@
 
   throwback_known.json   IDs d'events Throwback ja vistos.
                          Generat automaticament per
-                         throwback_new_events.py
+                         throwback_early_bird.py
 
 
 +------------------------------------------------------------+

@@ -49,7 +49,7 @@ API_URL     = (
     f"?app_id={APP_ID}&callback=bitJsonp_callback"
 )
 BARCELONA   = (41.3851, 2.1734)
-MAX_KM      = 200
+MAX_KM      = 700
 CHECK_HOURS = 6
 
 # ─── Colors terminal ──────────────────────────────────────────────────────────

@@ -41,12 +41,6 @@ except ImportError:
     print(f"{R}⚠️  barcelona_monitor_dice.py no trobat.{X}")
 
 try:
-    import lost_frequencies_monitor_v4 as lf
-except ImportError:
-    lf = None
-    print(f"{R}⚠️  lost_frequencies_monitor_v4.py no trobat.{X}")
-
-try:
     import paloma_monitor_v1 as paloma
 except ImportError:
     paloma = None
@@ -97,14 +91,6 @@ def run_all():
             print(f"{R}Error Barcelona Monitor (Dice): {e}{X}")
     else:
         print(f"{R}⚠️  Monitor de Barcelona (Dice) no disponible.{X}")
-    # ── Lost Frequencies ──────────────────────────────────────────
-    if lf:
-        try:
-            lf.check_concerts()
-        except Exception as e:
-            print(f"{R}Error Lost Frequencies: {e}{X}")
-    else:
-        print(f"{R}⚠️  Monitor de Lost Frequencies no disponible.{X}")
 
     # ── Elikapowski ───────────────────────────────────────────────
     if eli:

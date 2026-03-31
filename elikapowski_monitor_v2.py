@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Monitor de concerts d'Elikapowski a menys de 35km de Barcelona.
+Monitor de concerts d'Elikapowski a menys de 35km de Masnou.
 Usa l'API GraphQL de Resident Advisor (ra.co).
 
 Instal·lació:
@@ -43,7 +43,7 @@ ARTIST_NAME = "Elikapowski"
 ARTIST_ID   = "164268"
 ARTIST_SLUG = "elikapowski"
 RA_URL      = "https://ra.co/graphql"
-BARCELONA = (41.4794, 2.3201)   #En si son les coordenades de Masnou
+Masnou = (41.4794, 2.3201)   #En si son les coordenades de Masnou
 MAX_KM      = 35
 CHECK_HOURS = 6
 
@@ -109,14 +109,14 @@ def fetch_events() -> list[dict]:
     return [ev for ev in events if (ev.get("date") or "")[:10] >= today]
 
 
-def distance_from_barcelona(event: dict) -> float | None:
+def distance_from_Masnou(event: dict) -> float | None:
     location = (event.get("venue") or {}).get("location") or {}
     lat = location.get("latitude")
     lon = location.get("longitude")
     if lat is None or lon is None:
         return None
     try:
-        return geodesic(BARCELONA, (float(lat), float(lon))).km
+        return geodesic(Masnou, (float(lat), float(lon))).km
     except Exception:
         return None
 def format_preu(event: dict) -> str:
@@ -154,7 +154,7 @@ def format_event(event: dict, km: float) -> str:
 def check_concerts() -> list:
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"\n{B}{'─'*55}{X}")
-    print(f"{B}🎵 {ARTIST_NAME} — Concerts a {MAX_KM}km de Barcelona{X}")
+    print(f"{B}🎵 {ARTIST_NAME} — Concerts a {MAX_KM}km de Masnou{X}")
     print(f"   Consulta: {now}")
     print(f"{B}{'─'*55}{X}\n")
 
@@ -164,21 +164,21 @@ def check_concerts() -> list:
 
     propers = []
     for ev in events:
-        km = distance_from_barcelona(ev)
+        km = distance_from_Masnou(ev)
         if km is not None and km <= MAX_KM:
             propers.append((ev, km))
 
     propers.sort(key=lambda x: x[0].get("date", ""))
 
     if propers:
-        print(f"{G}{B}🎉 {len(propers)} concert(s) a menys de {MAX_KM}km de Barcelona!{X}\n")
+        print(f"{G}{B}🎉 {len(propers)} concert(s) a menys de {MAX_KM}km de Masnou!{X}\n")
         for ev, km in propers:
             ev_str = format_event(ev, km)
             print(ev_str)
             print()
             send_telegram(ev_str.replace("\033[92m","").replace("\033[93m","").replace("\033[91m","").replace("\033[96m","").replace("\033[1m","").replace("\033[0m",""))
     else:
-        print(f"{R}😔 Cap concert d'{ARTIST_NAME} a menys de {MAX_KM}km de Barcelona de moment.{X}")
+        print(f"{R}😔 Cap concert d'{ARTIST_NAME} a menys de {MAX_KM}km de Masnou de moment.{X}")
         print(f"\n   Comprova manualment: {C}https://ra.co/dj/{ARTIST_SLUG}{X}")
 
     return propers
@@ -205,7 +205,7 @@ def watch_mode():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description=f"Monitor de concerts d'{ARTIST_NAME} a {MAX_KM}km de Barcelona"
+        description=f"Monitor de concerts d'{ARTIST_NAME} a {MAX_KM}km de Masnou"
     )
     parser.add_argument(
         "--watch", action="store_true",
